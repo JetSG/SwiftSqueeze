@@ -1,10 +1,8 @@
-classdef lemonRobot
+axis([-20,20,-20,20,-20,20])
 
-    properties
+% ptCloud = pcread('lemon.ply');
+% pcshow(ptCloud);
 
-    end
+mesh = readSurfaceMesh('lemon.ply');
 
-    methods
-
-    end
-end
+surfaceMeshShow(mesh);
