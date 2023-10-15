@@ -1,7 +1,7 @@
 classdef KinovaLink6 < RobotBaseClass
 
     properties(Access = public)
-        plyFileNameStem = 'KinovaLink6';
+        plyFileNameStem = 'Kinova';
     end
 
     methods
