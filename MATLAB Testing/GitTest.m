@@ -1,5 +1,4 @@
 disp("hello");
 
-robot = DobotMagician();
-
-robot.TestMoveJoints();
+% robot = DobotMagician();
+robot = KinovaLink6();
