@@ -1,5 +1,5 @@
 disp("hello");
 
-robot = LinearDobot;
+robot = DobotMagician();
 
 robot.TestMoveJoints();
