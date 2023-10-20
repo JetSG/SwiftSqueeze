@@ -1,7 +1,7 @@
 disp("hello");
 name = 'hi';
 % robot = DobotMagician();
-robot = KinovaLink6;
+robot = LinearUR3;
 % 
 % robot.MoveTestJoints();
 
