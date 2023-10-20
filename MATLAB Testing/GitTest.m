@@ -1,5 +1,8 @@
 disp("hello");
+name = 'hi';
+% robot = DobotMagician();
+robot = KinovaLink6;
+% 
+% robot.MoveTestJoints();
 
-robot = LinearDobot;
-
-robot.TestMoveJoints();
+% PlaceObject('KinovaLink0.ply', [0 0 0]);
