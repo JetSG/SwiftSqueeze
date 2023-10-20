@@ -16,12 +16,12 @@ classdef KinovaLink6 < RobotBaseClass
 
         function CreateModel(self)
             %Create the Kinova Link 6 model
-            link(1) = Link('d',137.50, 'a',0,     'alpha',pi/2,  'offset',pi);
-            link(2) = Link('d',0,      'a',485,   'alpha',0,     'offset',pi);
-            link(3) = Link('d',152.16, 'a',0,     'alpha',-pi/2, 'offset',pi);
-            link(4) = Link('d',222.75, 'a',0,     'alpha',0,     'offset',pi);
-            link(5) = Link('d',0,      'a',87.08, 'alpha',90,    'offset',pi);
-            link(6) = Link('d',0,      'a',92,    'alpha',0,     'offset',pi);
+            link(1) = Link('d',137.50, 'a',0, 'alpha',0, 'offset',pi);
+            link(2) = Link('d',0, 'a',0, 'alpha',0, 'offset',pi);
+            link(3) = Link('d',, 'a',0, 'alpha',0, 'offset',pi);
+            link(4) = Link('d',, 'a',0, 'alpha',0, 'offset',pi);
+            link(5) = Link('d',0, 'a',0, 'alpha',0, 'offset',pi);
+            link(6) = Link('d',0, 'a',0, 'alpha',0, 'offset',pi);
 
             %Set the joint limits
             % link(x).qlim = [];
