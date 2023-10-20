@@ -1,8 +1,8 @@
 
 % 
 % tableFilePath = 'environment.ply';
-% figure;
-% workspace = [-2 1.2 -2.2 2.2 -0.4 1.5]; %Doesnt work>
+figure;
+axis = [-2 2 -2 2 -2 2]; %Doesnt work>
 
 %       TABLE
 % [f, v, data] = plyread(tableFilePath, 'tri');
