@@ -2,7 +2,7 @@
 % 
 % tableFilePath = 'environment.ply';
 figure;
-axis = [-2 2 -2 2 -2 2]; %Doesnt work>
+axis = [-2, 2, -2, 2, -2, 2]; %Doesnt work>
 
 %       TABLE
 % [f, v, data] = plyread(tableFilePath, 'tri');
