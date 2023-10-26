@@ -2,7 +2,9 @@
 % 
 % tableFilePath = 'environment.ply';
 figure;
-axis = [-2, 2, -2, 2, -2, 2]; %Doesnt work>
+workspace = [-3, 3, 0.1, 2.5, -3, 3]; %Doesnt work>
+axis equal;
+hold on;
 
 %       TABLE
 % [f, v, data] = plyread(tableFilePath, 'tri');
@@ -11,10 +13,12 @@ axis = [-2, 2, -2, 2, -2, 2]; %Doesnt work>
 % hold on;
 % tableMesh.Vertices = tableMesh.Vertices + [0,0,-0.39];
 
-PlaceObject('Environment.ply', [0 0 0])
+PlaceObject('tableV3.ply', [0 0 0])
+
+camlight;
 
 
 
-DobotMagician(); %DH
+% DobotMagician(); %DH
 
 view(3);
