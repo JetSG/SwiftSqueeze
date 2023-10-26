@@ -17,6 +17,14 @@ table = PlaceObject('tableV3.ply', [0 0 0]);
 lemon1 = PlaceObject('lemon1.ply', [0.005, 0.5, 0.775]);
 lemon2 = PlaceObject('lemon2.ply', [0.005, 0.5, 0.775]);
 
+cuttingBoardPos = [1.160, 0.184, 0.775+0.034];
+lemonOffset = [0, -0.04, 0.008]
+lemonWidth = 0.035;
+lemonHeight = 0.102;
+
+% lemon1 = PlaceObject('lemon1.ply', cuttingBoardPos+lemonOffset);
+% lemon2 = PlaceObject('lemon2.ply', cuttingBoardPos+lemonOffset);
+
 camlight;
 
 dobot = DobotMagician();
@@ -44,7 +52,7 @@ view(3);
 
 
 numSteps = 50;
-cuttingBoardPos = [1.160, 0.218, 0.775];
+
 
 cutEndPos = [0, 0, 0] + cuttingBoardPos;
 
