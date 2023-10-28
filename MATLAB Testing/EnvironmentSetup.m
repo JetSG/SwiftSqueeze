@@ -13,12 +13,12 @@ hold on;
 % tableMesh.Vertices = tableMesh.Vertices + [0,0,-0.39];
 
 
-table = PlaceObject('tableV3.ply', [0 0 0]);
-lemon1 = PlaceObject('lemon1.ply', [0.005, 0.5, 0.775]);
-lemon2 = PlaceObject('lemon2.ply', [0.005, 0.5, 0.775]);
-
+% table = PlaceObject('tableV3.ply', [0 0 0]);
+% lemon1 = PlaceObject('lemon1.ply', [0.005, 0.5, 0.775]);
+% lemon2 = PlaceObject('lemon2.ply', [0.005, 0.5, 0.775]);
+% 
 cuttingBoardPos = [1.160, 0.184, 0.775+0.034];
-lemonOffset = [0, -0.04, 0.008]
+lemonOffset = [0, -0.04, 0.008];
 lemonWidth = 0.035;
 lemonHeight = 0.102;
 
@@ -26,23 +26,24 @@ lemonHeight = 0.102;
 % lemon2 = PlaceObject('lemon2.ply', cuttingBoardPos+lemonOffset);
 
 camlight;
+% 
+% dobot = DobotMagician();
+% 
+% desiredBaseTr = transl(1.5016, 0.1834, 0.775);
+% 
+% dobot.model.base = desiredBaseTr * trotz(pi);
+% 
+% dobot.model.animate(dobot.model.getpos());
 
-dobot = DobotMagician();
 
-desiredBaseTr = transl(1.5016, 0.1834, 0.775);
+kinova = KinovaLink6();
 
-dobot.model.base = desiredBaseTr * trotz(pi);
-
-dobot.model.animate(dobot.model.getpos());
-
-
-% kinova = KinovaLink6();
 % 
 % desiredBaseTr = transl(0.5434, 0.500, 0.775);
 % 
 % kinova.model.base = desiredBaseTr;
 % 
-% kinova.model.animate(dobot.model.getpos());
+% kinova.model.animate(kinova.model.getpos());
 
 view(3);
 
@@ -54,15 +55,15 @@ view(3);
 numSteps = 50;
 
 
-cutEndPos = [0, 0, 0] + cuttingBoardPos;
+cutEndPos = [1, 0, 0] + cuttingBoardPos;
 
 cutStartPos = [0, 0, 0.28] + cuttingBoardPos; %will be replaced with lemonPos minus relevant values
 
 for i = 1:10
 
-    animateDobot(cutStartPos, numSteps, dobot)
-    
-    animateDobot(cutEndPos, numSteps, dobot)
+    animateDobot(cutStartPos, numSteps, kinova)
+
+    animateDobot(cutEndPos, numSteps, kinova)
 end 
 
 
