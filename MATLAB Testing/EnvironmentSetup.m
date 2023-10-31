@@ -12,38 +12,40 @@ hold on;
 % hold on;
 % tableMesh.Vertices = tableMesh.Vertices + [0,0,-0.39];
 
+lemonStartPos = [0.005, 0.5, 0.775];
 
-% table = PlaceObject('tableV3.ply', [0 0 0]);
-% lemon1 = PlaceObject('lemon1.ply', [0.005, 0.5, 0.775]);
-% lemon2 = PlaceObject('lemon2.ply', [0.005, 0.5, 0.775]);
+table = PlaceObject('tableV3.ply', [0 0 0]);
+lemon1 = PlaceObject('lemon1.ply', lemonStartPos);
+lemon2 = PlaceObject('lemon2.ply', lemonStartPos);
 % 
-cuttingBoardPos = [1.160, 0.184, 0.775+0.034];
 lemonOffset = [0, -0.04, 0.008];
+cuttingBoardPos = [1.160, 0.184, 0.775+0.034]+ lemonOffset;
+
 lemonWidth = 0.035;
 lemonHeight = 0.102;
 
-% lemon1 = PlaceObject('lemon1.ply', cuttingBoardPos+lemonOffset);
-% lemon2 = PlaceObject('lemon2.ply', cuttingBoardPos+lemonOffset);
+% lemon1 = PlaceObject('lemon1.ply', cuttingBoardPos);
+% lemon2 = PlaceObject('lemon2.ply', cuttingBoardPos);
 
 camlight;
 % 
-% dobot = DobotMagician();
-% 
-% desiredBaseTr = transl(1.5016, 0.1834, 0.775);
-% 
-% dobot.model.base = desiredBaseTr * trotz(pi);
-% 
-% dobot.model.animate(dobot.model.getpos());
+dobot = DobotMagician();
+
+desiredBaseTr = transl(1.5016, 0.1834, 0.775);
+
+dobot.model.base = desiredBaseTr * trotz(pi);
+
+dobot.model.animate(dobot.model.getpos());
 
 
 kinova = KinovaLink6();
 
 % 
-% desiredBaseTr = transl(0.5434, 0.500, 0.775);
-% 
-% kinova.model.base = desiredBaseTr;
-% 
-% kinova.model.animate(kinova.model.getpos());
+desiredBaseTr = transl(0.5434, 0.500, 0.775);
+
+kinova.model.base = desiredBaseTr;
+
+kinova.model.animate(kinova.model.getpos());
 
 view(3);
 
@@ -55,20 +57,25 @@ view(3);
 numSteps = 50;
 
 
-cutEndPos = [1, 0, 0] + cuttingBoardPos;
+cutEndPos = [0, 0, 0] + cuttingBoardPos;
 
 cutStartPos = [0, 0, 0.28] + cuttingBoardPos; %will be replaced with lemonPos minus relevant values
 
 for i = 1:10
 
-    animateDobot(cutStartPos, numSteps, kinova)
+    animateRobot(cutStartPos, numSteps, dobot);
+    
+    animateRobot(lemonStartPos, numSteps, kinova);
 
-    animateDobot(cutEndPos, numSteps, kinova)
+    animateRobot(cutEndPos, numSteps, dobot);
+
+    animateRobot(cuttingBoardPos, numSteps, kinova);
+
 end 
 
 
-function animateDobot(position, steps, Dobot)
-    lemonPosikcon = Dobot.model.ikcon(transl(position));
+function animateRobot(position, steps, Dobot)
+    lemonPosikcon = Dobot.model.ikcon(transl(position)*trotx(pi));
     
     jointTrajectory = jtraj(Dobot.model.getpos(), lemonPosikcon, steps);
     

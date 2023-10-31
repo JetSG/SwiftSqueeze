@@ -1,0 +1,4 @@
+q = [0, 0, 0, 0, 0, 0]
+
+% KinovaLink6.model.plot(q, 'workspace', 'floor', 'scale', 0.1); % Replace q with your joint angles
+KinovaGen3();

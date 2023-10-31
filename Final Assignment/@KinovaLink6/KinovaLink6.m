@@ -10,23 +10,29 @@ classdef KinovaLink6 < RobotBaseClass
             if nargin < 1
                 baseTr = eye(4);
             end
-            self.model.base = self.model.base.T * baseTr * trotx(pi/2) * troty(pi/2);
+            self.model.base = self.model.base.T * baseTr;
             self.PlotAndColourRobot();
         end
 
         function CreateModel(self)
             %Create the Kinova Link 6 model
-            link(1) = Link('d',137.50, 'a',0,     'alpha',pi/2,  'offset',pi);
-            link(2) = Link('d',0,      'a',485,   'alpha',0,     'offset',pi);
-            link(3) = Link('d',152.16, 'a',0,     'alpha',-pi/2, 'offset',pi);
-            link(4) = Link('d',222.75, 'a',0,     'alpha',0,     'offset',pi);
-            link(5) = Link('d',0,      'a',87.08, 'alpha',90,    'offset',pi);
-            link(6) = Link('d',0,      'a',92,    'alpha',0,     'offset',pi);
-
+            link(1) = Link('d',+0.1375+0.0515, 'a',-0.110244, 'alpha',pi/2, 'offset',-pi/2);
+            link(2) = Link('d',0.06925, 'a',0.485, 'alpha',0, 'offset',pi/2);
+            link(3) = Link('d',-0.0917, 'a',0, 'alpha',pi/2, 'offset',-pi/2);
+            link(4) = Link('d',-0.23975-0.0917, 'a',0, 'alpha',pi/2, 'offset',pi);
+            link(5) = Link('d',+0.078422+0.06296, 'a',-0.086, 'alpha',pi/2, 'offset',pi/2);
+            link(6) = Link('d',0.092+0.08708, 'a',0, 'alpha',0, 'offset',0);
+            % link(1) = Link('d',0, 'a',0, 'alpha',0, 'offset',0);
+            % link(2) = Link('d',1, 'a',0, 'alpha',0, 'offset',0);
+            % link(3) = Link('d',0, 'a',0, 'alpha',0, 'offset',0);
+            % link(4) = Link('d',0, 'a',0, 'alpha',0, 'offset',0);
+            % link(5) = Link('d',0, 'a',0, 'alpha',0, 'offset',0);
+            % link(6) = Link('d',0, 'a',0, 'alpha',0, 'offset',0);
             %Set the joint limits
-            % link(x).qlim = [];
+         
 
-            self.model = SerialLink(link, 'name', self.name);
+            self.model = SerialLink(link,'name', self.name);
+            
         end
     end
 end
