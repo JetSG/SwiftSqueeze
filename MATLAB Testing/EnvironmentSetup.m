@@ -50,10 +50,6 @@ kinova.model.animate(kinova.model.getpos());
 view(3);
 
 
-
-
-
-
 numSteps = 50;
 
 
@@ -75,7 +71,7 @@ end
 
 
 function animateRobot(position, steps, Dobot)
-    lemonPosikcon = Dobot.model.ikcon(transl(position)*trotx(pi));
+    lemonPosikcon = Dobot.model.ikcon(transl(position));
     
     jointTrajectory = jtraj(Dobot.model.getpos(), lemonPosikcon, steps);
     

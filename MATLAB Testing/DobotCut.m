@@ -1,9 +1,9 @@
 Dobot = DobotMagician();
 numSteps = 50;
 
-lemonPos = [0.3, 0, 0.2];
+lemonPos = [0.2, 0, 0.2];
 
-cutStartPos = [0.12, 0, 0.38]; %will be replaced with lemonPos minus relevant values
+cutStartPos = [0.12, 0, 0.15]; %will be replaced with lemonPos minus relevant values
 
 
 % [faceData,vertexData] = plyread('lemon.ply','tri');
@@ -31,8 +31,10 @@ cutStartPos = [0.12, 0, 0.38]; %will be replaced with lemonPos minus relevant va
 for i = 1:10
 
     animateDobot(cutStartPos, numSteps, Dobot)
-    
-    animateDobot(lemonPos, numSteps, Dobot)
+
+    % animateDobot(cutStartPos, numSteps, Dobot)
+    % 
+    % animateDobot(lemonPos, numSteps, Dobot)
 end 
 
 
