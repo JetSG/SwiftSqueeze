@@ -18,7 +18,6 @@ qn=[0,pi/4,pi/4,0,0];
 q = qn;                 % Set initial robot configuration 'q'
 
 HF = figure(1);         % Initialise figure to display robot
-robot.model.plot(q, tiles, false);          % Plot robot in initial configuration
 
 robot.model.delay = 0.001;    % Set smaller delay when animating
 set(HF,'Position',[0.1 0.1 0.8 0.8]);
