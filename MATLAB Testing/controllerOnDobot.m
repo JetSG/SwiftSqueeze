@@ -9,7 +9,6 @@ caps(joy) % display joystick information
 
 %% Set up robot
 robot = DobotMagician();                   % Create copy called 'robot'
-robot.model.tool = transl(0.1,0,0);   % Define tool frame on end-effector
 
 
 %% Start "real-time" simulation
@@ -19,7 +18,6 @@ q = qn;                 % Set initial robot configuration 'q'
 HF = figure(1);         % Initialise figure to display robot
 
 robot.model.delay = 0.001;    % Set smaller delay when animating
-set(HF,'Position',[0.1 0.1 0.8 0.8]);
 
 duration = 300;  % Set duration of the simulation (seconds)
 dt = 0.1;      % Set time step for simulation (seconds)
