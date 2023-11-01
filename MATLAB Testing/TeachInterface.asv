@@ -193,6 +193,21 @@ classdef TeachInterface < matlab.apps.AppBase
             app.XEditField_4.BackgroundColor = [0.5961 0.8 0.8902];
             app.XEditField_4.Position = [387 322 97 22];
 
+            q1_dobot           matlab.ui.control.Label
+            q1_dobot_field     matlab.ui.control.NumericEditField
+
+            % Create obot_field
+            app.X_dobot_field = uilabel(app.UIFigure);
+            app.X_dobot_field.HorizontalAlignment = 'center';
+            app.X_dobot_field.Position = [146 322 25 22];
+            app.X_dobot_field.Text = 'X';
+
+            % Create X_dobot
+            app.X_dobot = uieditfield(app.UIFigure, 'numeric');
+            app.X_dobot.HorizontalAlignment = 'center';
+            app.X_dobot.BackgroundColor = [0.5961 0.8 0.8902];
+            app.X_dobot.Position = [204 322 97 22];
+
             % Show the figure after all components are created
             app.UIFigure.Visible = 'on';
         end

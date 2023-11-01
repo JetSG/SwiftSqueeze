@@ -39,11 +39,11 @@ while( toc < duration)
     
     vx = Kv*axes(2);
     vy = Kv*axes(1);
-    vz = Kv*(buttons(5)-buttons(7));
+    vz = Kv*(buttons(5)-buttons(6));
     
-    wx = Kw*axes(4);
-    wy = Kw*axes(3);
-    wz = Kw*(buttons(6)-buttons(8));
+    wx = Kw*axes(5);
+    wy = Kw*axes(4);
+    wz = Kw*axes(3);
     
     dx = [vx;vy;vz;wx;wy;wz]; % combined velocity vector
     
