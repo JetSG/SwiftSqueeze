@@ -18,7 +18,7 @@ classdef RobotGripper < handle
         gripperModel;
         
         %> paddockSize in meters
-        paddockSize = [10,10];        
+        paddockSize = [0.5,0.5];        
         
         %> Dimensions of the workspace in regard to the padoc size
         workspaceDimensions;
@@ -37,7 +37,7 @@ classdef RobotGripper < handle
 
             % Create the required number of cows
             for i = 1:self.gripperCount
-                self.gripperModel{i} = self.GetgripperModel(['Assignment1Gripper',num2str(i)]);
+                self.gripperModel{i} = self.GetgripperModel(['knife',num2str(i)]);
                 % Random spawn
                 basePose = SE3(SE2((2 * rand()-1) * self.paddockSize(1)/2 ...
                                          , (2 * rand()-1) * self.paddockSize(2)/2 ...
@@ -63,9 +63,9 @@ classdef RobotGripper < handle
         %% GetgripperModel
         function model = GetgripperModel(name)
             if nargin < 1
-                name = 'HalfSizedRedGreenBrick';
+                name = 'knife';
             end
-            [faceData,vertexData] = plyread('table.ply','tri');
+            [faceData,vertexData] = plyread('KnifeHolderV2.ply','tri');
             link1 = Link('alpha',pi/2,'a',0,'d',0.1,'offset',0);
             model = SerialLink(link1,'name',name);
             
