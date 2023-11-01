@@ -8,8 +8,7 @@ caps(joy) % display joystick information
 
 
 %% Set up robot
-%mdl_puma560;                    % Load Puma560
-robot = DobotMagician;                   % Create copy called 'robot'
+robot = DobotMagician();                   % Create copy called 'robot'
 robot.model.tool = transl(0.1,0,0);   % Define tool frame on end-effector
 
 
@@ -23,7 +22,7 @@ robot.model.delay = 0.001;    % Set smaller delay when animating
 set(HF,'Position',[0.1 0.1 0.8 0.8]);
 
 duration = 300;  % Set duration of the simulation (seconds)
-dt = 0.15;      % Set time step for simulation (seconds)
+dt = 0.1;      % Set time step for simulation (seconds)
 
 n = 0;  % Initialise step count to zero 
 tic;    % recording simulation start time

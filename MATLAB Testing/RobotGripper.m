@@ -12,7 +12,7 @@ classdef RobotGripper < handle
     
     properties
         %> Number of cows
-        gripperCount = 2;
+        gripperCount = 1;
         
         %> A cell structure of \c gripperCount cow models
         gripperModel;
@@ -65,7 +65,7 @@ classdef RobotGripper < handle
             if nargin < 1
                 name = 'HalfSizedRedGreenBrick';
             end
-            [faceData,vertexData] = plyread('HalfSizedRedGreenBrick.ply','tri');
+            [faceData,vertexData] = plyread('table.ply','tri');
             link1 = Link('alpha',pi/2,'a',0,'d',0.1,'offset',0);
             model = SerialLink(link1,'name',name);
             
