@@ -1,17 +1,40 @@
 
 x = KinovaLink6();%
 
-figure(); 
+z = 0; %pause timer
+
+
+
 %%
-x.model.plot([pi/2, 0, 0, 0, 0, 0], 'scale', 0.5, 'name', 'test', 'tiles', false);
+for i = 0:0.1:2*pi
+    x.model.animate([i, 0, 0, 0, 0, 0]);
+    pause(z)
+end
 %%
-x.model.plot([0,  pi/2, 0, 0, 0, 0], 'scale', 0.5)
+for i = 0:0.1:2*pi
+    x.model.animate([0, i, 0, 0, 0, 0]);
+    pause(z)
+end
 %%
-x.model.plot([0, 0, pi/2, 0, 0, 0], 'scale', 0.5)
+for i = 0:0.1:2*pi
+    x.model.animate([0, 0, i, 0, 0, 0]);
+    pause(z)
+end
 %%
-x.model.plot([0, 0, 0,  pi/2, 0, 0], 'scale', 0.5)
+for i = 0:0.1:2*pi
+    x.model.animate([0, 0, 0, i, 0, 0]);
+    pause(z)
+end
 %%
-x.model.plot([0, 0, 0, 0, pi/2, 0], 'scale', 0.5)
+for i = 0:0.1:2*pi
+    x.model.animate([0, 0, 0, 0, i, 0]);
+    pause(z)
+end
 %%
-x.model.plot([0, 0, 0, 0, 0,  pi/2], 'scale', 0.5)
+for i = 0:0.1:2*pi
+    x.model.animate([0, 0, 0, 0, 0, i]);
+    pause(z)
+end
 %%
+
+x.model.animate([0, 0, 0, 0, 0, 0]);

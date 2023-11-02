@@ -13,12 +13,9 @@ kinova = KinovaLink6();
 %Positions
 lemonStartPos = [0.005, 0.5, 0.775];
 lemonOffset = [0, -0.04, 0.008];
-lemonWidth = 0.035;
-lemonHeight = 0.102;
-
 cuttingBoardPos = [1.160, 0.184, 0.775+0.034]+ lemonOffset;
-juicerPos = [1.051, 0.85577, 0.775+0.036];
-binPos = [1.33255, 0.85577, 0.775+0.3];
+juicerPos = [1.051, 0.85577+0.036, 0.775];
+binPos = [1.33255, 0.85577+0.3, 0.775]
 
 
 
@@ -29,24 +26,27 @@ lemon2 = PlaceObject('lemon2.ply', lemonStartPos);
 % 
 
 
-
+lemonWidth = 0.035;
+lemonHeight = 0.102;
 
 % lemon1 = PlaceObject('lemon1.ply', cuttingBoardPos);
 % lemon2 = PlaceObject('lemon2.ply', cuttingBoardPos);
 
 camlight;
+% 
 
-%Dobot Translation
+desiredBaseTr = transl(1.5016, 0.1834, 0.775);
 
-dobot.model.base = transl(1.5016, 0.1834, 0.775) * trotz(pi);
+dobot.model.base = desiredBaseTr * trotz(pi);
 
 dobot.model.animate(dobot.model.getpos());
 
 
 
-%KinovaTranslation 
+% 
+desiredBaseTr = transl(0.5434, 0.500, 0.775);
 
-kinova.model.base = transl(0.5434, 0.500, 0.775);
+kinova.model.base = desiredBaseTr;
 
 kinova.model.animate(kinova.model.getpos());
 
