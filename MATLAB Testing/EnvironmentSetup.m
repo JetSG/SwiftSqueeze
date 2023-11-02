@@ -58,8 +58,8 @@ kinova.model.animate(kinova.model.getpos());
 view(3);
 
 %%  MAIN
-    animateRobot(dobot, numSteps, cutStartPos, 1);
 
+    animateRobot(dobot, numSteps, cutStartPos, 1);
 
 for i = 1:10
     
@@ -67,6 +67,9 @@ for i = 1:10
     RMRC(kinova, lemonStartPos, pi)
 
     RMRC(kinova, cuttingBoardPos, pi);
+
+
+
     RMRC(kinova, kinovaIdlePos, pi);
 
 
@@ -85,10 +88,10 @@ for i = 1:10
 
     % animateRobot(kinova, numSteps, juicerPos+lemonOffset, trotx(pi));%move to juicer
     % 
-    % Juice(kinova, numSteps, 2*pi);
-    % Juice(kinova, numSteps, -2*pi);
-    % Juice(kinova, numSteps, 2*pi);
-    % Juice(kinova, numSteps, 0);
+    Juice(kinova, numSteps, 2*pi);
+    Juice(kinova, numSteps, -2*pi);
+    Juice(kinova, numSteps, 2*pi);
+    Juice(kinova, numSteps, 0);
     % 
     % animateRobot(kinova, numSteps, binPos, trotx(pi));%throw lemon in bin
     RMRC(kinova, binPos, pi);
@@ -99,6 +102,7 @@ for i = 1:10
 
 
 end 
+
 
 
 function RMRC(kinova, endPos, pitch)
@@ -117,6 +121,8 @@ endZ=endPos(3);
     steps = t/deltaT;   % No. of steps for simulation
     epsilon = 0.1;      % Threshold value for manipulability/Damped Least Squares
     W = diag([1 1 1 0.1 0.1 0.1]);    % Weighting matrix for the velocity vector
+
+    delta = 2*pi/steps;
     
     %Allocate array data
     m = zeros(steps,1);             % Array for Measure of Manipulability
@@ -131,6 +137,7 @@ endZ=endPos(3);
         x(1,i) = (1-s(i))*beginX + s(i)*endX; % Points in x
         x(2,i) = (1-s(i))*beginY + s(i)*endY; % Points in y
         x(3,i) = (1-s(i))*beginZ + s(i)*endZ; % Points in z
+        % x(3,i) = beginZ + 0.2*sin(i*delta); % Points in z
         theta(1,i) = 0;                 % Roll angle 
         theta(2,i) = pitch;            % Pitch angle
         theta(3,i) = 0;                 % Yaw angle
@@ -170,6 +177,7 @@ endZ=endPos(3);
     
     
     for i = 1:steps
+
         kinova.model.animate(qMatrix(i,:))
         drawnow();
     end
@@ -182,6 +190,7 @@ function animateRobot(robot, steps, position, angle)
     
     for j = 1:steps
         q = jointTrajectory(j, :); % Get joint configuration for the current step
+        
         robot.model.animate(q); % Animate the robot
         drawnow();
     end

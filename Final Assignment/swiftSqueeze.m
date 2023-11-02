@@ -23,11 +23,14 @@ numSteps = 50;
 cutEndPos = cuttingBoardPos;
 
 cutStartPos = lemonOffset + cuttingBoardPos; 
+    x=RobotGripper();
 
 %%  Object Placement
 figure;
 workspace = [-3, 3, -5, 2.5, -3, 3];
 % axis equal
+plotOptions.tiles = false;
+
 hold on;
 
 dobot = DobotMagician();
@@ -35,6 +38,14 @@ kinova = KinovaLink6();
 
 table = PlaceObject('tableV3.ply', [0 0 0]);
 lemon1 = PlaceObject('lemon1.ply', lemonStartPos);
+% [f, v, data] = plyread('lemon1.ply', 'tri');
+% 
+% vertexColors = [data.vertex.red, data.vertex.green, data.vertex.blue] / 255;
+% lemon = patch('Vertices', v, 'Faces', f, 'FaceVertexCData', vertexColors, 'FaceColor', 'interp', 'EdgeColor', 'none');
+% hold on;
+% lemon.Vertices = lemon.Vertices + lemonStartPos;
+
+
 lemon2 = PlaceObject('lemon2.ply', lemonStartPos);
 
 % lemon1 = PlaceObject('lemon1.ply', cuttingBoardPos);
@@ -59,16 +70,13 @@ view(3);
 
 %%  MAIN
     animateRobot(dobot, numSteps, cutStartPos, 1);
-
-
+    RobotGripper.base = kinova.model.fkine(kinova.model.getpos);
 for i = 1:10
     
     % animateRobot(kinova, numSteps, cuttingBoardPos, trotx(pi)); %move lemon to cutting board
     RMRC(kinova, lemonStartPos, pi)
-
     RMRC(kinova, cuttingBoardPos, pi);
     RMRC(kinova, kinovaIdlePos, pi);
-
 
 
     % animateRobot(kinova, numSteps, kinovaIdlePos, trotx(pi)); %move out of the way
@@ -85,10 +93,10 @@ for i = 1:10
 
     % animateRobot(kinova, numSteps, juicerPos+lemonOffset, trotx(pi));%move to juicer
     % 
-    % Juice(kinova, numSteps, 2*pi);
-    % Juice(kinova, numSteps, -2*pi);
-    % Juice(kinova, numSteps, 2*pi);
-    % Juice(kinova, numSteps, 0);
+    Juice(kinova, numSteps, 2*pi);
+    Juice(kinova, numSteps, -2*pi);
+    Juice(kinova, numSteps, 2*pi);
+    Juice(kinova, numSteps, 0);
     % 
     % animateRobot(kinova, numSteps, binPos, trotx(pi));%throw lemon in bin
     RMRC(kinova, binPos, pi);
@@ -151,6 +159,11 @@ endZ=endPos(3);
         xdot = W*[linear_velocity;angular_velocity];                          	% Calculate end-effector velocity to reach next waypoint.
         J = kinova.model.jacob0(qMatrix(i,:));                 % Get Jacobian at current joint state
         m(i) = sqrt(det(J*J'));
+
+
+
+
+
         if m(i) < epsilon  % If manipulability is less than given threshold
             lambda = (1 - m(i)/epsilon)*5E-2;
         else
@@ -171,6 +184,7 @@ endZ=endPos(3);
     
     for i = 1:steps
         kinova.model.animate(qMatrix(i,:))
+
         drawnow();
     end
 end
