@@ -1,5 +1,11 @@
 %%  SETUP
 
+%Connect lemon to end affector
+%collision detection
+
+%singularity if time
+
+
 %%  Positions
 %Positions
 lemonStartPos = [0.005, 0.5, 0.775];
@@ -69,12 +75,11 @@ kinova.model.animate(kinova.model.getpos());
 view(3);
 
 %%  MAIN
-    animateRobot(dobot, numSteps, cutStartPos, 1);
-    RobotGripper.base = kinova.model.fkine(kinova.model.getpos);
+    animateRobot(dobot, numSteps, cutStartPos, 1, lemon1);
 for i = 1:10
     
     % animateRobot(kinova, numSteps, cuttingBoardPos, trotx(pi)); %move lemon to cutting board
-    RMRC(kinova, lemonStartPos, pi)
+    RMRC(kinova, lemonStartPos, pi);
     RMRC(kinova, cuttingBoardPos, pi);
     RMRC(kinova, kinovaIdlePos, pi);
 
@@ -198,6 +203,8 @@ function animateRobot(robot, steps, position, angle)
         q = jointTrajectory(j, :); % Get joint configuration for the current step
         robot.model.animate(q); % Animate the robot
         drawnow();
+
+
     end
 end 
 
