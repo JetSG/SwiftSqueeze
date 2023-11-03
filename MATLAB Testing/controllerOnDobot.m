@@ -25,40 +25,40 @@ dt = 0.1;      % Set time step for simulation (seconds)
 n = 0;  % Initialise step count to zero 
 tic;    % recording simulation start time
 while( toc < duration)
-    
+
     n=n+1; % increment step count
 
     % read joystick
     [axes, buttons, povs] = read(joy);
-       
+
     % -------------------------------------------------------------
     % YOUR CODE GOES HERE
     % 1 - turn joystick input into an end-effector velocity command
     Kv = 0.2; % linear velocity gain
     Kw = 1.0; % angular velocity gain
-    
+
     vx = Kv*axes(2);
     vy = Kv*axes(1);
     vz = Kv*(buttons(5)-buttons(6));
-    
+
     wx = Kw*axes(5);
     wy = Kw*axes(4);
     wz = Kw*axes(3);
-    
+
     dx = [vx;vy;vz;wx;wy;wz]; % combined velocity vector
-    
+
     % 2 - use J inverse to calculate joint velocity
     J = robot.model.jacob0(q);
     dq = pinv(J)*dx;
-    
+
     % 3 - apply joint velocity to step robot joint angles 
     q = q + dq'*dt;
-      
+
     % -------------------------------------------------------------
-    
+
     % Update plot
     robot.model.animate(q);  
-    
+
     % wait until loop time elapsed
     if (toc > dt*n)
         warning('Loop %i took too much time - consider increating dt',n);
