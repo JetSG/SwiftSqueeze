@@ -34,16 +34,21 @@ cutStartPos = lemonOffset + cuttingBoardPos + [0, 0, 0.1];
 figure;
 workspace = [-3, 3, -5, 2.5, -3, 3];
 % axis equal
-plotOptions.tile = false;
 
 hold on;
 
 dobot = DobotMagician();
 kinova = KinovaLink6();
-plotOptions.tile = false;
 
 
-table = PlaceObject('tableV3.ply', [0 0 0]);
+% table = PlaceObject('tableV3.ply', [0 0 0]);
+
+
+[f, v, data] = plyread('tableV3.ply', 'tri');
+
+vertexColors = [data.vertex.red, data.vertex.green, data.vertex.blue] / 255;
+table = patch('Vertices', v, 'Faces', f, 'FaceVertexCData', vertexColors, 'FaceColor', 'interp', 'EdgeColor', 'none');
+hold on;
 
 % lemon1 = PlaceObject('lemon1.ply', lemonStartPos);
 
@@ -77,7 +82,6 @@ originalKnifeVert = knife.Vertices;
 % lemon1 = PlaceObject('lemon1.ply', cuttingBoardPos);
 % lemon2 = PlaceObject('lemon2.ply', cuttingBoardPos);
 
-camlight;
 
 %Dobot Translation
 
@@ -91,9 +95,9 @@ dobot.model.animate(dobot.model.getpos());
 kinova.model.base = transl(kinovaPos);
 
 kinova.model.animate(kinova.model.getpos());
-
+camlight;
+hold on;
 view(3);
-
 %%  MAIN
 animateRobot(dobot, numSteps, cutStartPos, 1, knife, originalKnifeVert);
 
