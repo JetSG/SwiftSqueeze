@@ -38,7 +38,6 @@ cutStartPos = lemonOffset + cuttingBoardPos + [0, 0, 0.1];
 figure;
 workspace = [-3, 3, -5, 2.5, -3, 3];
 % axis equal
-
 hold on;
 
 dobot = DobotMagician();
@@ -99,8 +98,7 @@ dobot.model.animate(dobot.model.getpos());
 kinova.model.base = transl(kinovaPos);
 
 kinova.model.animate(kinova.model.getpos());
-camlight;
-hold on;
+camlight('headlight');
 view(3);
 %%  MAIN
 animateRobot(dobot, numSteps, cutStartPos, 1, knife, originalKnifeVert);
@@ -119,6 +117,12 @@ RMRC(kinova, kinovaIdlePos, pi, 1.5, 1, 1, 1);
 % animateRobot(kinova, numSteps, kinovaIdlePos, trotx(pi)); %move out of the way
 
 animateRobot(dobot, numSteps, cutEndPos, 1, knife, originalKnifeVert);%cut
+
+animateRobot(dobot, numSteps, cutEndPos + [0.1, -0.15, 0.05], 1, knife, originalKnifeVert);%cut
+
+animateRobot(dobot, numSteps, cutEndPos+[0.1, 0.15, 0.05], 1, knife, originalKnifeVert);%cut
+
+
 animateRobot(dobot, numSteps, cutStartPos, 1, knife, originalKnifeVert);%startcutpos
 %
 
