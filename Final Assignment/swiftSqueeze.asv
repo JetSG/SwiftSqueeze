@@ -60,16 +60,9 @@ lemon1.Vertices = lemon1.Vertices + lemonStartPos;
 vertexColors = [data.vertex.red, data.vertex.green, data.vertex.blue] / 255;
 lemon2 = patch('Vertices', v, 'Faces', f, 'FaceVertexCData', vertexColors, 'FaceColor', 'interp', 'EdgeColor', 'none');
 hold on;
+originalLemonVertices = lemon2.Vertices - [0, 0, 0.1];
 
 lemon2.Vertices = lemon2.Vertices + lemonStartPos;
-
-% [f, v, data] = plyread('KnifeHolderV2.ply', 'tri');
-% 
-% vertexColors = [data.vertex.red, data.vertex.green, data.vertex.blue] / 255;
-% knife = patch('Vertices', v, 'Faces', f, 'FaceVertexCData', vertexColors, 'FaceColor', 'interp', 'EdgeColor', 'none');
-% hold on;
-% 
-% knife.Vertices = knife.Vertices;
 
 
 % lemon1 = PlaceObject('lemon1.ply', cuttingBoardPos);
@@ -98,13 +91,13 @@ view(3);
 for i = 1:10
 
     % animateRobot(kinova, numSteps, cuttingBoardPos, trotx(pi)); %move lemon to cutting board
-    RMRC(kinova, lemonStartPos+[0, 0, 1], pi, 3, 1, 1, 1);
-    RMRC(kinova, lemonStartPos+[0, 0, 0.07], pi, 1.5, 1, 1, 1);
+    RMRC(kinova, lemonStartPos+[0, 0, 1], pi, 3, 1, 1);
+    RMRC(kinova, lemonStartPos+[0, 0, 0.2], pi, 1.5, 1, 1);
 
-    RMRC(kinova, ((lemonStartPos+cuttingBoardPos)/2)+[0, -0.4, 0], pi, 1.5, originalLemonVertices, lemon1, lemon2);
+    RMRC(kinova, ((lemonStartPos+cuttingBoardPos)/2)+[0, -0.4, 0], pi, 1.5, originalLemonVertices, lemon1);
 
-    RMRC(kinova, cuttingBoardPos, pi, 1.5, originalLemonVertices, lemon1, lemon2);
-    RMRC(kinova, kinovaIdlePos, pi, 1.5, 1, 1, 1);
+    RMRC(kinova, cuttingBoardPos, pi, 1.5, originalLemonVertices, lemon1);
+    RMRC(kinova, kinovaIdlePos, pi, 1.5, 1, 1);
 
 
     % animateRobot(kinova, numSteps, kinovaIdlePos, trotx(pi)); %move out of the way
@@ -116,8 +109,8 @@ for i = 1:10
 
     % animateRobot(kinova, numSteps, cuttingBoardPos, trotx(pi));%pickup lemon off cuttingboard
     
-    RMRC(kinova, cuttingBoardPos, pi, 1.5, 1, 1, 1);
-    RMRC(kinova, juicerPos+[0, 0, 0.1], pi, 3, originalLemonVertices, lemon1, 1);
+    RMRC(kinova, cuttingBoardPos, pi, 1.5, 1, 1);
+    RMRC(kinova, juicerPos+[0, 0, 0.1], pi, 3, originalLemonVertices, lemon1);
 
     % animateRobot(kinova, numSteps, juicerPos+lemonOffset, trotx(pi));%move to juicer
     % 
@@ -127,9 +120,9 @@ for i = 1:10
     Juice(kinova, numSteps, 0);
     % 
     % animateRobot(kinova, numSteps, binPos, trotx(pi));%throw lemon in bin
-    RMRC(kinova, juicerPos+[0, 0, 0.5], pi, 1.5, originalLemonVertices, lemon1, 1);
+    RMRC(kinova, juicerPos+[0, 0, 0.5], pi, 1.5, originalLemonVertices, lemon1);
 
-    RMRC(kinova, binPos, pi, 3, originalLemonVertices, lemon1, 1);
+    RMRC(kinova, binPos, pi, 3, originalLemonVertices, lemon1);
     
     for j = 1:20
           lemon1.Vertices = lemon1.Vertices - [0, 0, 0.01];
@@ -236,10 +229,9 @@ endZ=endPos(3);
         drawnow();
         if (lemon == 1)
 
-        elseif lemon2 == 1
+        elseif 
             lemon.Vertices = originalLemonVertices + transl(kinova.model.fkine(kinova.model.getpos()));
         else
-            lemon2.Vertices = originalLemonVertices + transl(kinova.model.fkine(kinova.model.getpos()));
             lemon.Vertices = originalLemonVertices + transl(kinova.model.fkine(kinova.model.getpos()));
 
         end
