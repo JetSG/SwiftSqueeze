@@ -9,15 +9,15 @@
 %%  Positions
 %Positions
 lemonStartPos = [0.005, 0.5, 0.775];
-lemonOffset = [0, -0.04, 0.008+0.102];
+lemonOffset = [0, -0.04, 0.008+0.035];
 % lemonWidth = 0.035;
 % lemonHeight = 0.102;
 
-cuttingBoardPos = [1.160, 0.184, 0.775+0.034]+ lemonOffset;
+cuttingBoardPos = [1.160, 0.184, 0.775+0.07]+ lemonOffset;
 juicerPos = [1.051, 0.85577, 0.775+0.036];
 binPos = [1.33255, 0.85577, 0.775+0.3];
 
-dobotPos = [1.5016, 0.1834, 0.775];
+dobotPos = [1.6016, 0.1834, 0.775];
 kinovaPos = [0.5434, 0.500, 0.775];
 
 
@@ -26,20 +26,22 @@ kinovaIdlePos = [1.16, -0.25, 0.8170];
 
 numSteps = 50;
 
-cutEndPos = cuttingBoardPos;
+cutEndPos = cuttingBoardPos - [0, 0, 0.05];
 
-cutStartPos = lemonOffset + cuttingBoardPos; 
+cutStartPos = lemonOffset + cuttingBoardPos + [0, 0, 0.1]; 
 
 %%  Object Placement
 figure;
 workspace = [-3, 3, -5, 2.5, -3, 3];
 % axis equal
-plotOptions.tiles = false;
+plotOptions.tile = false;
 
 hold on;
 
 dobot = DobotMagician();
 kinova = KinovaLink6();
+plotOptions.tile = false;
+
 
 table = PlaceObject('tableV3.ply', [0 0 0]);
 
@@ -50,7 +52,7 @@ table = PlaceObject('tableV3.ply', [0 0 0]);
 vertexColors = [data.vertex.red, data.vertex.green, data.vertex.blue] / 255;
 lemon1 = patch('Vertices', v, 'Faces', f, 'FaceVertexCData', vertexColors, 'FaceColor', 'interp', 'EdgeColor', 'none');
 hold on;
-originalLemonVertices = lemon1.Vertices - [0, 0, 0.1];
+originalLemonVertices = lemon1.Vertices - [0, 0, 0.07];
 
 lemon1.Vertices = lemon1.Vertices + lemonStartPos;
 
@@ -63,13 +65,13 @@ hold on;
 
 lemon2.Vertices = lemon2.Vertices + lemonStartPos;
 
-% [f, v, data] = plyread('KnifeHolderV2.ply', 'tri');
-% 
-% vertexColors = [data.vertex.red, data.vertex.green, data.vertex.blue] / 255;
-% knife = patch('Vertices', v, 'Faces', f, 'FaceVertexCData', vertexColors, 'FaceColor', 'interp', 'EdgeColor', 'none');
-% hold on;
-% 
-% knife.Vertices = knife.Vertices;
+[f, v, data] = plyread('knifeHolder.ply', 'tri');
+
+vertexColors = [data.vertex.red, data.vertex.green, data.vertex.blue] / 255;
+knife = patch('Vertices', v, 'Faces', f, 'FaceVertexCData', vertexColors, 'FaceColor', 'interp', 'EdgeColor', 'none');
+hold on;
+
+originalKnifeVert = knife.Vertices;
 
 
 % lemon1 = PlaceObject('lemon1.ply', cuttingBoardPos);
@@ -93,55 +95,73 @@ kinova.model.animate(kinova.model.getpos());
 view(3);
 
 %%  MAIN
-    animateRobot(dobot, numSteps, cutStartPos, 1);
-
-for i = 1:10
-
-    % animateRobot(kinova, numSteps, cuttingBoardPos, trotx(pi)); %move lemon to cutting board
-    RMRC(kinova, lemonStartPos+[0, 0, 1], pi, 3, 1, 1, 1);
-    RMRC(kinova, lemonStartPos+[0, 0, 0.07], pi, 1.5, 1, 1, 1);
-
-    RMRC(kinova, ((lemonStartPos+cuttingBoardPos)/2)+[0, -0.4, 0], pi, 1.5, originalLemonVertices, lemon1, lemon2);
-
-    RMRC(kinova, cuttingBoardPos, pi, 1.5, originalLemonVertices, lemon1, lemon2);
-    RMRC(kinova, kinovaIdlePos, pi, 1.5, 1, 1, 1);
+animateRobot(dobot, numSteps, cutStartPos, 1, knife, originalKnifeVert);
 
 
-    % animateRobot(kinova, numSteps, kinovaIdlePos, trotx(pi)); %move out of the way
+% animateRobot(kinova, numSteps, cuttingBoardPos, trotx(pi)); %move lemon to cutting board
+RMRC(kinova, lemonStartPos+[0, 0, 1], pi, 3, 1, 1, 1);
+RMRC(kinova, lemonStartPos+[0, 0, 0.07], pi, 1.5, 1, 1, 1);
 
-    animateRobot(dobot, numSteps, cutEndPos, 1);%cut
-    animateRobot(dobot, numSteps, cutStartPos, 1);%startcutpos
-    %
+RMRC(kinova, ((lemonStartPos+cuttingBoardPos)/2)+[0, -0.4, 0.2], pi, 1.5, originalLemonVertices, lemon1, lemon2);
 
-
-    % animateRobot(kinova, numSteps, cuttingBoardPos, trotx(pi));%pickup lemon off cuttingboard
-    
-    RMRC(kinova, cuttingBoardPos, pi, 1.5, 1, 1, 1);
-    RMRC(kinova, juicerPos+[0, 0, 0.1], pi, 3, originalLemonVertices, lemon1, 1);
-
-    % animateRobot(kinova, numSteps, juicerPos+lemonOffset, trotx(pi));%move to juicer
-    % 
-    Juice(kinova, numSteps, 2*pi);
-    Juice(kinova, numSteps, -2*pi);
-    Juice(kinova, numSteps, 2*pi);
-    Juice(kinova, numSteps, 0);
-    % 
-    % animateRobot(kinova, numSteps, binPos, trotx(pi));%throw lemon in bin
-    RMRC(kinova, juicerPos+[0, 0, 0.5], pi, 1.5, originalLemonVertices, lemon1, 1);
-
-    RMRC(kinova, binPos, pi, 3, originalLemonVertices, lemon1, 1);
-    
-    for j = 1:20
-          lemon1.Vertices = lemon1.Vertices - [0, 0, 0.01];
-          pause(0.2);
-    end
-
-    % animateRobot(kinova, numSteps, lemonStartPos, trotx(pi));% go to start
-    % 
+RMRC(kinova, cuttingBoardPos, pi, 1.5, originalLemonVertices, lemon1, lemon2);
+RMRC(kinova, kinovaIdlePos, pi, 1.5, 1, 1, 1);
 
 
+% animateRobot(kinova, numSteps, kinovaIdlePos, trotx(pi)); %move out of the way
 
-end 
+animateRobot(dobot, numSteps, cutEndPos, 1, knife, originalKnifeVert);%cut
+animateRobot(dobot, numSteps, cutStartPos, 1, knife, originalKnifeVert);%startcutpos
+%
+
+
+% animateRobot(kinova, numSteps, cuttingBoardPos, trotx(pi));%pickup lemon off cuttingboard
+
+RMRC(kinova, cuttingBoardPos, pi, 1.5, 1, 1, 1);
+RMRC(kinova, juicerPos+[0, 0, 0.1], pi, 3, originalLemonVertices, lemon1, 1);
+
+% animateRobot(kinova, numSteps, juicerPos+lemonOffset, trotx(pi));%move to juicer
+% 
+Juice(kinova, numSteps, 2*pi);
+Juice(kinova, numSteps, -2*pi);
+Juice(kinova, numSteps, 2*pi);
+Juice(kinova, numSteps, 0);
+% 
+% animateRobot(kinova, numSteps, binPos, trotx(pi));%throw lemon in bin
+RMRC(kinova, juicerPos+[0, 0, 0.5], pi, 1.5, originalLemonVertices, lemon1, 1);
+
+RMRC(kinova, binPos, pi, 3, originalLemonVertices, lemon1, 1);
+
+for j = 1:20
+      lemon1.Vertices = lemon1.Vertices - [0, 0, 0.01];
+      pause(0.2);
+end
+
+% animateRobot(kinova, numSteps, lemonStartPos, trotx(pi));% go to start
+% 
+
+RMRC(kinova, cuttingBoardPos, pi, 1.5, 1, 1, 1);
+RMRC(kinova, juicerPos+[0, 0, 0.1], pi, 3, originalLemonVertices, lemon2, 1);
+
+% animateRobot(kinova, numSteps, juicerPos+lemonOffset, trotx(pi));%move to juicer
+% 
+Juice(kinova, numSteps, 2*pi);
+Juice(kinova, numSteps, -2*pi);
+Juice(kinova, numSteps, 2*pi);
+Juice(kinova, numSteps, 0);
+% 
+% animateRobot(kinova, numSteps, binPos, trotx(pi));%throw lemon in bin
+RMRC(kinova, juicerPos+[0, 0, 0.5], pi, 1.5, originalLemonVertices, lemon2, 1);
+
+RMRC(kinova, binPos, pi, 3, originalLemonVertices, lemon2, 1);
+
+for j = 1:20
+      lemon2.Vertices = lemon2.Vertices - [0, 0, 0.01];
+      pause(0.2);
+end
+
+
+ 
 
 % finalJointStates = ikine(kinova.model.getpos();)
 
@@ -249,7 +269,7 @@ endZ=endPos(3);
     disp(qMatrix(end,:));
 end
 
-function animateRobot(robot, steps, position, angle)
+function animateRobot(robot, steps, position, angle, knife, originalKnifeVert)
     lemonPosikcon = robot.model.ikcon(transl(position)*angle);
     
     jointTrajectory = jtraj(robot.model.getpos(), lemonPosikcon, steps);
@@ -258,6 +278,7 @@ function animateRobot(robot, steps, position, angle)
         q = jointTrajectory(j, :); % Get joint configuration for the current step
         robot.model.animate(q); % Animate the robot
         drawnow();
+        knife.Vertices =  originalKnifeVert + transl(robot.model.fkine(robot.model.getpos()));
 
 
     end
