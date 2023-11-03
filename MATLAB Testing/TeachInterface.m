@@ -28,11 +28,15 @@ classdef TeachInterface < matlab.apps.AppBase
     properties (Access = public)
         Property % Description
         robot = DobotMagician;
+        
+
+
     end
     
     methods (Access = private)
         
         function results = func(app)
+            disp("here")
             
         end
     end
